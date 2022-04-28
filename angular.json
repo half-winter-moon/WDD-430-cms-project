@@ -23,6 +23,7 @@
               "src/assets"
             ],
             "styles": [
+              "C:/Users/jenni/Documents/Documents/CIT/WDD-430/cms/node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
             "scripts": []
