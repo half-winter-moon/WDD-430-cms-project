@@ -13,10 +13,11 @@ export class DocumentListComponent implements OnInit {
   constructor(private documentService: DocumentService) {}
 
   ngOnInit() {
+    // do I need both of these lines of code?
     this.documents = this.documentService.getDocuments();
-  }
-
-  onSelectedDocument(document: Document) {
-    this.documentService.documentSelectedEvent.emit(document);
+    // is this how this function is supposed to look?
+    this.documentService.documentChangedEvent.subscribe((documentsArray) => {
+      this.documents = documentsArray;
+    });
   }
 }
