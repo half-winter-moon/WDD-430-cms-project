@@ -11,15 +11,6 @@ export class ContactDetailComponent implements OnInit {
   @Input() contact: Contact;
   id: string;
 
-  // new Contact(
-  //   '1',
-  //   'R. Kent Jackson',
-  //   'jacksonk@byui.edu',
-  //   '208-496-3771',
-  //   '../../assets/images/jacksonk.jpg',
-  //   null
-  // );
-
   constructor(
     private contactService: ContactService,
     private router: Router,
