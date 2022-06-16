@@ -18,8 +18,6 @@ export class MessageItemComponent implements OnInit {
     const contact: Contact = this.contactService.getContact(
       this.message.sender
     );
-
-    //the console says name is not defined??
     this.messageSender = contact.name;
   }
 }

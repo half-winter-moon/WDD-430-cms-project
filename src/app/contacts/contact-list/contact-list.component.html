@@ -1,24 +1,42 @@
 <div class="row">
-    <div class="col-xs-12">
-        <div class="panel panel-default">
-        <div class="panel-heading">
-            <span class="heading">Contacts</span>
-            <button class="btn btn-success" routerLink="new">New Contact</button>
+  <div class="col-xs-12">
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <span class="pad-left-right heading">Contacts</span>
         </div>
-            <div class="panel-body">
-                <div class="col-xs-12 margin-top">
-                    <cms-contact-item 
-                    *ngFor="let contact of contacts"
-                    [contact]="contact" 
-                    dnd-draggable
-                    [dragEnabled]="true"
-                    [dragData]="contact"
-                    [dropZones]="['contactGroup']"
-
-                    ></cms-contact-item>
-                </div>
-            </div>
+        <div class="row">
+          <div class="input-group pull-left pad-left-right col-xs-7">
+            <input
+              type="text"
+              #searchBox
+              (keyup)="search(searchBox.value)"
+              placeholder="Enter a search value"
+              class="form-control"
+            />
+            <div
+              class="glyphicon glyphicon-search input-group-addon"
+              (click)="search(searchBox.value)"
+            ></div>
+          </div>
+          <div class="pull-right pad-left-right">
+            <a class="btn btn-success" [routerLink]="['new']">New Contact</a>
+            <!-- <button class="btn btn-success" routerLink="new">New Contact</button> -->
+          </div>
         </div>
+      </div>
+      <div class="panel-body">
+        <div class="col-xs-12 margin-top">
+          <cms-contact-item
+            *ngFor="let contact of contacts | contactsFilter: term"
+            [contact]="contact"
+            dnd-draggable
+            [dragEnabled]="true"
+            [dragData]="contact"
+            [dropZones]="['contactGroup']"
+          ></cms-contact-item>
+        </div>
+      </div>
     </div>
+  </div>
 </div>
-

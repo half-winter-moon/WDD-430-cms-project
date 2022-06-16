@@ -2,6 +2,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { Contact } from './contact.model';
 import { MOCKCONTACTS } from './MOCKCONTACTS';
 import { Subject } from 'rxjs';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root',
@@ -9,21 +10,39 @@ import { Subject } from 'rxjs';
 export class ContactService {
   contacts: Contact[] = [];
   maxContactId: number;
-
-  // contactSelectedEvent = new EventEmitter<Contact>();
   contactChangedEvent = new Subject<Contact[]>();
 
-  constructor() {
-    this.contacts = MOCKCONTACTS;
-    this.maxContactId = this.getMaxId();
+  constructor(private http: HttpClient) {
+    // this.contacts = MOCKCONTACTS;
   }
 
   getContact(id: string): Contact {
-    return this.contacts.find((contact) => contact.id === id);
+    // return this.contacts.find((contact) => contact.id === id);
+    for (const contact of this.contacts) {
+      if (contact.id === id) {
+        return contact;
+      }
+    }
+    return null;
   }
 
-  getContacts(): Contact[] {
-    return this.contacts.slice();
+  getContacts() {
+    this.http
+      .get('https://wdd430-a26e9-default-rtdb.firebaseio.com/contacts.json')
+      .subscribe(
+        (contacts: Contact[]) => {
+          this.contacts = contacts;
+          this.maxContactId = this.getMaxId();
+          this.contacts.sort((a, b) =>
+            a.name > b.name ? 1 : a.name < b.name ? -1 : 0
+          );
+          this.contactChangedEvent.next(this.contacts.slice());
+        },
+        (error) => {
+          console.log(error);
+        }
+      );
+    // return this.contacts.slice();
   }
 
   deleteContact(contact: Contact) {
@@ -47,6 +66,20 @@ export class ContactService {
       }
     });
     return maxId;
+  }
+
+  storeContacts() {
+    let contacts = JSON.stringify(this.contacts);
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    this.http
+      .put(
+        'https://wdd430-a26e9-default-rtdb.firebaseio.com/contacts.json',
+        contacts,
+        { headers: headers }
+      )
+      .subscribe(() => {
+        this.contactChangedEvent.next(this.contacts.slice());
+      });
   }
 
   addContact(newContact: Contact) {
