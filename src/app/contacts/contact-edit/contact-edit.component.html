@@ -13,7 +13,8 @@
             name="name"
             #name="ngModel"
             [ngModel]="contact?.name"
-            required>
+            required
+          />
         </div>
       </div>
 
@@ -30,8 +31,11 @@
             [ngModel]="contact?.email"
             #email="ngModel"
             required
-            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$">
-            <div class="alert alert-danger" *ngIf="email.touched && !email.valid">Enter a valid Email address</div>
+            pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$"
+          />
+          <div class="alert alert-danger" *ngIf="email.touched && !email.valid">
+            Enter a valid Email address
+          </div>
         </div>
       </div>
 
@@ -47,8 +51,11 @@
             name="phone"
             [ngModel]="contact?.phone"
             #phone="ngModel"
-            pattern="\D*([2-9]\d{2})(\D*)([2-9]\d{2})(\D*)(\d{4})\D*">
-            <div class="alert alert-danger" *ngIf="phone.touched && !phone.valid">Enter a valid phone number</div>
+            pattern="\D*([2-9]\d{2})(\D*)([2-9]\d{2})(\D*)(\d{4})\D*"
+          />
+          <div class="alert alert-danger" *ngIf="phone.touched && !phone.valid">
+            Enter a valid phone number
+          </div>
         </div>
       </div>
 
@@ -63,7 +70,8 @@
             max="255"
             name="imageUrl"
             [ngModel]="contact?.imageUrl"
-            #imageUrl="ngModel">
+            #imageUrl="ngModel"
+          />
         </div>
       </div>
 
@@ -71,39 +79,51 @@
         <div class="form-group">
           <label for="groupList">Group Contacts:</label>
 
-          <div 
-          class="row" 
-          id="groupList"
-          style="min-height: 3rem;" 
-          dnd-droppable
-          [dropZones]="['contactGroup']"
-          (onDropSuccess)="addToGroup($event)">
-
+          <div
+            class="row"
+            id="groupList"
+            style="min-height: 3rem"
+            dnd-droppable
+            [dropZones]="['contactGroup']"
+            (onDropSuccess)="addToGroup($event)"
+          >
             <div *ngFor="let contact of groupContacts; let i = index">
               <div>
-                <cms-contact-item class="col-sm-11" [contact]="contact"></cms-contact-item>
-                <button class="btn btn-danger col-sm-2 deleteButton" (click)="onRemoveItem(i)">X</button>
+                <cms-contact-item
+                  class="col-sm-11"
+                  [contact]="contact"
+                ></cms-contact-item>
+                <button
+                  class="btn btn-danger col-sm-2 deleteButton"
+                  (click)="onRemoveItem(i)"
+                >
+                  X
+                </button>
               </div>
             </div>
-            <span class="dragMsg" *ngIf="groupContacts?.length < 1">Drag contacts in group here</span>
+            <span class="dragMsg" *ngIf="groupContacts?.length < 1"
+              >Drag contacts in group here</span
+            >
           </div>
-
         </div>
       </div>
 
-      <div 
-      class="alert alert-danger" 
-      *ngIf="(!name.valid && name.touched) || (email.touched && !email.valid)">
+      <div
+        class="alert alert-danger"
+        *ngIf="(!name.valid && name.touched) || (email.touched && !email.valid)"
+      >
         The Name and Email fields are required.
       </div>
       <div class="row">
         <div class="col-xs-12 btn-toolbar">
-          <button class="btn btn-success" type="submit" [disabled]="f.valid">Save</button>
-          <button class="btn btn-primary" type="button" (click)="onCancel()">Cancel</button>
+          <button class="btn btn-success" type="submit" [disabled]="!f.valid">
+            Save
+          </button>
+          <button class="btn btn-primary" type="button" (click)="onCancel()">
+            Cancel
+          </button>
         </div>
       </div>
-
     </form>
   </div>
 </div>
-
